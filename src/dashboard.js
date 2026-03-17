@@ -162,31 +162,43 @@ export function renderDashboardMarkup(payload) {
   const data = normalizeDashboardPayload(payload);
   const progressWidth = Math.max(0, Math.min(100, data.progress.percent));
   const statusTone = getStatusTone(data.status.label);
+  const missionStamp = `${data.student.program} / ${data.student.cohort}`;
 
   return `
-    <div class="dashboard">
-      <section class="student-header">
-        <article class="panel">
-          <p class="section-label">Student Profile</p>
-          <h3 class="student-header__name">${escapeHtml(data.student.fullName)}</h3>
+    <div class="dashboard dashboard--command">
+      <section class="mission-control">
+        <article class="panel panel--command">
+          <p class="section-label">Academy Command</p>
+          <div class="command-band">
+            <div>
+              <p class="command-band__eyebrow">Student Console</p>
+              <h3 class="student-header__name">${escapeHtml(data.student.fullName)}</h3>
+            </div>
+            <p class="command-band__stamp">${escapeHtml(missionStamp)}</p>
+          </div>
           <div class="student-header__meta">
             <span class="meta-pill">${escapeHtml(data.student.program)}</span>
             <span class="meta-pill">${escapeHtml(data.student.cohort)}</span>
-            <span class="meta-pill">${escapeHtml(formatDate(data.status.updatedAt))}</span>
+            <span class="meta-pill">Updated ${escapeHtml(formatDate(data.status.updatedAt))}</span>
           </div>
         </article>
-        <article class="panel">
-          <p class="section-label">Current Status</p>
-          <div class="status-pill status-pill--${statusTone}">
-            ${escapeHtml(data.status.label)}
+
+        <article class="panel panel--status">
+          <p class="section-label">Mission Control</p>
+          <div class="status-rack">
+            <div class="status-pill status-pill--${statusTone}">
+              ${escapeHtml(data.status.label)}
+            </div>
+            <p class="status-rack__date">${escapeHtml(formatDate(data.status.updatedAt))}</p>
           </div>
-          <p class="card__subtext">${escapeHtml(data.progress.summary)}</p>
+          <p class="card__subtext card__subtext--bright">${escapeHtml(data.progress.summary)}</p>
         </article>
       </section>
 
       <section class="summary-grid">
-        <article class="panel">
+        <article class="panel metric-panel metric-panel--progress">
           <p class="section-label">Course Progress</p>
+          <p class="metric-panel__caption">Mission completion</p>
           <p class="card__value">${escapeHtml(formatProgressLabel(data.progress.percent))}</p>
           <p class="card__subtext">${escapeHtml(`${data.progress.completed} of ${data.progress.total} milestones complete`)}</p>
           <div class="progress-meter" aria-hidden="true">
@@ -196,40 +208,64 @@ export function renderDashboardMarkup(payload) {
           </div>
         </article>
 
-        <article class="panel">
+        <article class="panel metric-panel metric-panel--cash">
           <p class="section-label">Cash On Deposit</p>
+          <p class="metric-panel__caption">Spendable account balance</p>
           <p class="card__value">${escapeHtml(formatCurrency(data.balances.cash))}</p>
           <p class="card__subtext">Available for tuition, sessions, and academy purchases.</p>
         </article>
 
-        <article class="panel">
+        <article class="panel metric-panel metric-panel--guildies">
           <p class="section-label">Guildies Balance</p>
+          <p class="metric-panel__caption">Internal academy credits</p>
           <p class="card__value">${escapeHtml(formatGuildies(data.balances.guildies))}</p>
           <p class="card__subtext">Internal academy credits for rewards, unlocks, and perks.</p>
         </article>
       </section>
 
-      <section class="content-grid">
+      <section class="operations-grid">
         <div class="stack">
-          <article class="panel">
-            <p class="section-label">Upcoming Deadlines</p>
+          <article class="panel panel--operations">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Operations Queue</p>
+                <h4>Upcoming Deadlines</h4>
+              </div>
+              <p class="panel-heading__meta">${data.upcoming.length} open</p>
+            </div>
             ${renderList(data.upcoming, renderDeadlineCard, 'No deadlines are currently scheduled.')}
           </article>
 
-          <article class="panel">
-            <p class="section-label">Teacher Notes</p>
+          <article class="panel panel--notes">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Advisor Feed</p>
+                <h4>Teacher Notes</h4>
+              </div>
+            </div>
             ${renderList(data.notes, renderNote, 'No notes have been posted yet.')}
           </article>
         </div>
 
         <div class="stack">
-          <article class="panel">
-            <p class="section-label">Recent Account Activity</p>
+          <article class="panel ledger-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Ledger</p>
+                <h4>Recent Account Activity</h4>
+              </div>
+              <p class="panel-heading__meta">Cash + Guildies</p>
+            </div>
             ${renderList(data.transactions, renderTransaction, 'No account activity to show yet.')}
           </article>
 
-          <article class="panel">
-            <p class="section-label">Quick Links</p>
+          <article class="panel panel--links">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Launchpad</p>
+                <h4>Quick Links</h4>
+              </div>
+            </div>
             ${renderList(data.links, renderLink, 'No quick links configured yet.')}
           </article>
         </div>

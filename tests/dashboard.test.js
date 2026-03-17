@@ -67,3 +67,23 @@ runTest('renderDashboardMarkup includes balances, deadlines, and transactions', 
   assert.match(markup, /Essay Draft/);
   assert.match(markup, /Tutoring Deposit/);
 });
+
+runTest('renderDashboardMarkup exposes command-center layout hooks', () => {
+  const markup = renderDashboardMarkup(
+    normalizeDashboardPayload({
+      student: { fullName: 'Guildie Master', program: 'UCC', cohort: 'Spring' },
+      status: { label: 'Active', updatedAt: '2026-03-17' },
+      progress: { percent: 65, completed: 8, total: 12, summary: 'Mission is progressing.' },
+      balances: { cash: 120, guildies: 250 },
+      upcoming: [],
+      transactions: [],
+      notes: [],
+      links: [],
+    }),
+  );
+
+  assert.match(markup, /Mission Control/);
+  assert.match(markup, /metric-panel metric-panel--progress/);
+  assert.match(markup, /operations-grid/);
+  assert.match(markup, /ledger-panel/);
+});
