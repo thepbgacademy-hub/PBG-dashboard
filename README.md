@@ -34,12 +34,25 @@ Example:
 ```html
 <script>
   window.DASHBOARD_CONFIG = {
-    endpoint: 'https://your-n8n-instance/webhook/student-dashboard',
+    endpoint: 'https://n8n.srv918518.hstgr.cloud/webhook/student-dashboard',
     studentId: 'student-1001',
     academyName: 'Guild Academy',
   };
 </script>
 ```
+
+An n8n draft workflow has already been created:
+
+- Workflow name: `Guild Academy Student Dashboard API`
+- Workflow ID: `8ETA8SLnbbXVDz9E`
+- Planned production webhook URL after activation: `https://n8n.srv918518.hstgr.cloud/webhook/student-dashboard`
+
+Before that endpoint will work, open the workflow in n8n and:
+
+1. Set Google Sheets credentials on each `Read ...` node.
+2. Replace `PASTE_GOOGLE_SHEET_ID` with your real spreadsheet ID on each `Read ...` node.
+3. Confirm the tab names match: `students`, `progress`, `balances`, `deadlines`, `transactions`, `notes`, `links`.
+4. Activate the workflow.
 
 Expected JSON from n8n:
 
