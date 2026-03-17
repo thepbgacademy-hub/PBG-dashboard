@@ -131,6 +131,17 @@ runTest('createSessionState sets unlocked state for valid demo login', () => {
   );
 });
 
+runTest('createSessionState stays unlocked in front-end demo mode', () => {
+  assert.deepEqual(
+    createSessionState({ userId: '999999', password: 'wrong' }),
+    {
+      authenticated: true,
+      userId: '999999',
+      error: '',
+    },
+  );
+});
+
 runTest('renderLoginMarkup exposes hud login hooks and asset reference', () => {
   const markup = renderLoginMarkup({ error: '', userId: '123465' });
 

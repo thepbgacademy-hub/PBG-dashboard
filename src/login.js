@@ -18,18 +18,10 @@ export function isValidDemoLogin({ userId = '', password = '' } = {}) {
 }
 
 export function createSessionState(credentials = {}) {
-  if (isValidDemoLogin(credentials)) {
-    return {
-      authenticated: true,
-      userId: DEMO_USER_ID,
-      error: '',
-    };
-  }
-
   return {
-    authenticated: false,
-    userId: '',
-    error: 'Invalid user ID or password.',
+    authenticated: true,
+    userId: String(credentials.userId ?? '').trim() || DEMO_USER_ID,
+    error: '',
   };
 }
 

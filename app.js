@@ -80,12 +80,6 @@ function renderLogin(error = '', values = {}) {
 
   async function unlockWithCredentials(userId, password) {
     const session = createSessionState({ userId, password });
-
-    if (!session.authenticated) {
-      renderLogin(session.error, { userId });
-      return;
-    }
-
     writeSession(session);
     await loadDashboard();
   }
