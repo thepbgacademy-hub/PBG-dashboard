@@ -11,7 +11,10 @@ function escapeHtml(value) {
 }
 
 export function isValidDemoLogin({ userId = '', password = '' } = {}) {
-  return String(userId).trim() === DEMO_USER_ID && String(password) === DEMO_PASSWORD;
+  return (
+    String(userId).trim() === DEMO_USER_ID &&
+    String(password).trim().toLowerCase() === DEMO_PASSWORD
+  );
 }
 
 export function createSessionState(credentials = {}) {
@@ -30,7 +33,7 @@ export function createSessionState(credentials = {}) {
   };
 }
 
-export function renderLoginMarkup({ error = '' } = {}) {
+export function renderLoginMarkup({ error = '', userId = '' } = {}) {
   const errorMarkup = error
     ? `<p class="login-error" role="alert">${escapeHtml(error)}</p>`
     : '';
@@ -57,7 +60,7 @@ export function renderLoginMarkup({ error = '' } = {}) {
         <form id="login-form" class="login-form">
           <label class="login-field">
             <span>User ID</span>
-            <input id="login-user-id" name="userId" type="text" inputmode="numeric" autocomplete="username">
+            <input id="login-user-id" name="userId" type="text" inputmode="numeric" autocomplete="username" value="${escapeHtml(userId)}">
           </label>
 
           <label class="login-field">

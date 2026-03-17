@@ -64,13 +64,13 @@ function setToolbarState(authenticated) {
   }
 }
 
-function renderLogin(error = '') {
+function renderLogin(error = '', values = {}) {
   if (!root) {
     return;
   }
 
   setToolbarState(false);
-  root.innerHTML = renderLoginMarkup({ error });
+  root.innerHTML = renderLoginMarkup({ error, userId: values.userId ?? '' });
   const form = document.querySelector('#login-form');
 
   if (!form) {
@@ -85,7 +85,7 @@ function renderLogin(error = '') {
     const session = createSessionState({ userId, password });
 
     if (!session.authenticated) {
-      renderLogin(session.error);
+      renderLogin(session.error, { userId });
       return;
     }
 

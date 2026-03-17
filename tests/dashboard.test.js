@@ -116,6 +116,7 @@ runTest('renderDashboardMarkup exposes hud layout hooks', () => {
 
 runTest('isValidDemoLogin accepts the configured demo credentials', () => {
   assert.equal(isValidDemoLogin({ userId: '123465', password: 'admin' }), true);
+  assert.equal(isValidDemoLogin({ userId: '123465 ', password: ' Admin ' }), true);
   assert.equal(isValidDemoLogin({ userId: '123465', password: 'wrong' }), false);
 });
 
@@ -131,7 +132,7 @@ runTest('createSessionState sets unlocked state for valid demo login', () => {
 });
 
 runTest('renderLoginMarkup exposes hud login hooks and asset reference', () => {
-  const markup = renderLoginMarkup({ error: '' });
+  const markup = renderLoginMarkup({ error: '', userId: '123465' });
 
   assert.match(markup, /login-screen/);
   assert.match(markup, /academy-sigil\.svg/);
