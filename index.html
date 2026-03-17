@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Dashboard</title>
+    <meta
+      name="description"
+      content="A student progress and account dashboard powered by n8n and Google Sheets."
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Guild Academy</p>
+          <h1>Student progress and account dashboard</h1>
+          <p class="hero__text">
+            A static student portal designed for GitHub Pages, ready to read
+            live progress and balance data from n8n.
+          </p>
+        </div>
+        <div class="hero__meta">
+          <p class="hero__label">Deployment target</p>
+          <p class="hero__value">GitHub Pages + n8n API</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="dashboard-frame">
+          <div class="dashboard-toolbar">
+            <div>
+              <p class="section-label">Student view</p>
+              <h2>Live dashboard</h2>
+            </div>
+            <p id="connection-status" class="connection-status">Loading dashboard...</p>
+          </div>
+
+          <div id="dashboard-root" class="dashboard-root" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      window.DASHBOARD_CONFIG = {
+        endpoint: '',
+        studentId: 'student-demo-001',
+        academyName: 'Guild Academy',
+      };
+    </script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
