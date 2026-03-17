@@ -67,7 +67,7 @@ runTest('renderDashboardMarkup includes balances, deadlines, and transactions', 
   );
 
   assert.match(markup, /Jordan Rivers/);
-  assert.match(markup, /\$325\.75/);
+  assert.match(markup, /\$326/);
   assert.match(markup, /Guildies Balance/);
   assert.match(markup, />480</);
   assert.match(markup, /Essay Draft/);

@@ -34,6 +34,17 @@ export function formatCurrency(amount) {
   }).format(value);
 }
 
+function formatWholeCurrency(amount) {
+  const value = Math.round(Number(amount ?? 0));
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
 export function formatGuildies(amount) {
   const value = Math.round(Number(amount ?? 0));
   return `${new Intl.NumberFormat('en-US').format(value)} Guildies`;
@@ -205,7 +216,7 @@ export function renderDashboardMarkup(payload) {
             <article class="hud-panel metric-panel metric-panel--cash">
               <p class="section-label">Cash On Deposit</p>
               <p class="metric-panel__caption">Spendable account balance</p>
-              <p class="card__value">${escapeHtml(formatCurrency(data.balances.cash))}</p>
+              <p class="card__value">${escapeHtml(formatWholeCurrency(data.balances.cash))}</p>
               <p class="card__subtext">Available for tuition, sessions, and academy purchases.</p>
             </article>
 
