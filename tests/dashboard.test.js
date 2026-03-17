@@ -68,7 +68,7 @@ runTest('renderDashboardMarkup includes balances, deadlines, and transactions', 
   assert.match(markup, /Tutoring Deposit/);
 });
 
-runTest('renderDashboardMarkup exposes command-center layout hooks', () => {
+runTest('renderDashboardMarkup exposes command-center status hooks', () => {
   const markup = renderDashboardMarkup(
     normalizeDashboardPayload({
       student: { fullName: 'Guildie Master', program: 'UCC', cohort: 'Spring' },
@@ -84,6 +84,26 @@ runTest('renderDashboardMarkup exposes command-center layout hooks', () => {
 
   assert.match(markup, /Mission Control/);
   assert.match(markup, /metric-panel metric-panel--progress/);
-  assert.match(markup, /operations-grid/);
+  assert.match(markup, /signal-dials/);
   assert.match(markup, /ledger-panel/);
+});
+
+runTest('renderDashboardMarkup exposes hud layout hooks', () => {
+  const markup = renderDashboardMarkup(
+    normalizeDashboardPayload({
+      student: { fullName: 'Guildie Master', program: 'UCC', cohort: 'Spring' },
+      status: { label: 'Active', updatedAt: '2026-03-17' },
+      progress: { percent: 65, completed: 8, total: 12, summary: 'Mission is progressing.' },
+      balances: { cash: 120, guildies: 250 },
+      upcoming: [{ title: 'Checkpoint', dueDate: '2026-03-25', course: 'Secret Agent' }],
+      transactions: [{ title: 'Workshop', date: '2026-03-12', amount: 45, type: 'cash' }],
+      notes: [{ title: 'Admin', body: 'Good job!' }],
+      links: [],
+    }),
+  );
+
+  assert.match(markup, /hud-grid/);
+  assert.match(markup, /student-frame/);
+  assert.match(markup, /signal-cluster/);
+  assert.match(markup, /hud-panel hud-panel--ledger/);
 });

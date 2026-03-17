@@ -165,67 +165,81 @@ export function renderDashboardMarkup(payload) {
   const missionStamp = `${data.student.program} / ${data.student.cohort}`;
 
   return `
-    <div class="dashboard dashboard--command">
-      <section class="mission-control">
-        <article class="panel panel--command">
-          <p class="section-label">Academy Command</p>
-          <div class="command-band">
-            <div>
-              <p class="command-band__eyebrow">Student Console</p>
-              <h3 class="student-header__name">${escapeHtml(data.student.fullName)}</h3>
+    <div class="dashboard dashboard--hud">
+      <section class="hud-grid">
+        <div class="student-frame">
+          <article class="hud-panel hud-panel--identity">
+            <p class="section-label">Student Frame</p>
+            <div class="command-band">
+              <div>
+                <p class="command-band__eyebrow">Student Console</p>
+                <h3 class="student-header__name">${escapeHtml(data.student.fullName)}</h3>
+              </div>
+              <p class="command-band__stamp">${escapeHtml(missionStamp)}</p>
             </div>
-            <p class="command-band__stamp">${escapeHtml(missionStamp)}</p>
-          </div>
-          <div class="student-header__meta">
-            <span class="meta-pill">${escapeHtml(data.student.program)}</span>
-            <span class="meta-pill">${escapeHtml(data.student.cohort)}</span>
-            <span class="meta-pill">Updated ${escapeHtml(formatDate(data.status.updatedAt))}</span>
-          </div>
-        </article>
-
-        <article class="panel panel--status">
-          <p class="section-label">Mission Control</p>
-          <div class="status-rack">
-            <div class="status-pill status-pill--${statusTone}">
-              ${escapeHtml(data.status.label)}
+            <div class="student-header__meta">
+              <span class="meta-pill">${escapeHtml(data.student.program)}</span>
+              <span class="meta-pill">${escapeHtml(data.student.cohort)}</span>
+              <span class="meta-pill">Updated ${escapeHtml(formatDate(data.status.updatedAt))}</span>
             </div>
-            <p class="status-rack__date">${escapeHtml(formatDate(data.status.updatedAt))}</p>
-          </div>
-          <p class="card__subtext card__subtext--bright">${escapeHtml(data.progress.summary)}</p>
-        </article>
-      </section>
+          </article>
 
-      <section class="summary-grid">
-        <article class="panel metric-panel metric-panel--progress">
-          <p class="section-label">Course Progress</p>
-          <p class="metric-panel__caption">Mission completion</p>
-          <p class="card__value">${escapeHtml(formatProgressLabel(data.progress.percent))}</p>
-          <p class="card__subtext">${escapeHtml(`${data.progress.completed} of ${data.progress.total} milestones complete`)}</p>
-          <div class="progress-meter" aria-hidden="true">
-            <div class="progress-meter__track">
-              <div class="progress-meter__fill" style="width:${progressWidth}%"></div>
+          <section class="frame-metrics">
+            <article class="hud-panel metric-panel metric-panel--progress">
+              <p class="section-label">Course Progress</p>
+              <p class="metric-panel__caption">Mission completion</p>
+              <p class="card__value">${escapeHtml(formatProgressLabel(data.progress.percent))}</p>
+              <p class="card__subtext">${escapeHtml(`${data.progress.completed} of ${data.progress.total} milestones complete`)}</p>
+              <div class="progress-meter" aria-hidden="true">
+                <div class="progress-meter__track">
+                  <div class="progress-meter__fill" style="width:${progressWidth}%"></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="hud-panel metric-panel metric-panel--cash">
+              <p class="section-label">Cash On Deposit</p>
+              <p class="metric-panel__caption">Spendable account balance</p>
+              <p class="card__value">${escapeHtml(formatCurrency(data.balances.cash))}</p>
+              <p class="card__subtext">Available for tuition, sessions, and academy purchases.</p>
+            </article>
+
+            <article class="hud-panel metric-panel metric-panel--guildies">
+              <p class="section-label">Guildies Balance</p>
+              <p class="metric-panel__caption">Internal academy credits</p>
+              <p class="card__value">${escapeHtml(formatGuildies(data.balances.guildies))}</p>
+              <p class="card__subtext">Internal academy credits for rewards, unlocks, and perks.</p>
+            </article>
+          </section>
+        </div>
+
+        <div class="signal-cluster">
+          <article class="hud-panel hud-panel--status">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Mission Control</p>
+                <h4>System Status</h4>
+              </div>
+              <p class="panel-heading__meta">${escapeHtml(formatDate(data.status.updatedAt))}</p>
             </div>
-          </div>
-        </article>
+            <div class="signal-dials">
+              <div class="signal-dial signal-dial--primary">
+                <span class="signal-dial__ring"></span>
+                <span class="signal-dial__label">${escapeHtml(data.status.label)}</span>
+              </div>
+              <div class="signal-dial">
+                <span class="signal-dial__ring"></span>
+                <span class="signal-dial__label">${Math.round(data.progress.percent)}%</span>
+              </div>
+              <div class="signal-dial">
+                <span class="signal-dial__ring"></span>
+                <span class="signal-dial__label">${Math.round(data.balances.guildies)}</span>
+              </div>
+            </div>
+            <p class="card__subtext card__subtext--bright">${escapeHtml(data.progress.summary)}</p>
+          </article>
 
-        <article class="panel metric-panel metric-panel--cash">
-          <p class="section-label">Cash On Deposit</p>
-          <p class="metric-panel__caption">Spendable account balance</p>
-          <p class="card__value">${escapeHtml(formatCurrency(data.balances.cash))}</p>
-          <p class="card__subtext">Available for tuition, sessions, and academy purchases.</p>
-        </article>
-
-        <article class="panel metric-panel metric-panel--guildies">
-          <p class="section-label">Guildies Balance</p>
-          <p class="metric-panel__caption">Internal academy credits</p>
-          <p class="card__value">${escapeHtml(formatGuildies(data.balances.guildies))}</p>
-          <p class="card__subtext">Internal academy credits for rewards, unlocks, and perks.</p>
-        </article>
-      </section>
-
-      <section class="operations-grid">
-        <div class="stack">
-          <article class="panel panel--operations">
+          <article class="hud-panel hud-panel--operations">
             <div class="panel-heading">
               <div>
                 <p class="section-label">Operations Queue</p>
@@ -236,19 +250,7 @@ export function renderDashboardMarkup(payload) {
             ${renderList(data.upcoming, renderDeadlineCard, 'No deadlines are currently scheduled.')}
           </article>
 
-          <article class="panel panel--notes">
-            <div class="panel-heading">
-              <div>
-                <p class="section-label">Advisor Feed</p>
-                <h4>Teacher Notes</h4>
-              </div>
-            </div>
-            ${renderList(data.notes, renderNote, 'No notes have been posted yet.')}
-          </article>
-        </div>
-
-        <div class="stack">
-          <article class="panel ledger-panel">
+          <article class="hud-panel hud-panel--ledger ledger-panel">
             <div class="panel-heading">
               <div>
                 <p class="section-label">Ledger</p>
@@ -259,7 +261,17 @@ export function renderDashboardMarkup(payload) {
             ${renderList(data.transactions, renderTransaction, 'No account activity to show yet.')}
           </article>
 
-          <article class="panel panel--links">
+          <article class="hud-panel hud-panel--notes">
+            <div class="panel-heading">
+              <div>
+                <p class="section-label">Advisor Feed</p>
+                <h4>Teacher Notes</h4>
+              </div>
+            </div>
+            ${renderList(data.notes, renderNote, 'No notes have been posted yet.')}
+          </article>
+
+          <article class="hud-panel hud-panel--links">
             <div class="panel-heading">
               <div>
                 <p class="section-label">Launchpad</p>
