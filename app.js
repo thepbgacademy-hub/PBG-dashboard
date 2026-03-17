@@ -19,11 +19,20 @@ function readSession() {
 }
 
 function writeSession(session) {
-  window.sessionStorage.setItem(sessionKey, JSON.stringify(session));
+  try {
+    window.sessionStorage.setItem(sessionKey, JSON.stringify(session));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function clearSession() {
-  window.sessionStorage.removeItem(sessionKey);
+  try {
+    window.sessionStorage.removeItem(sessionKey);
+  } catch {
+    // Ignore storage failures and fall back to in-memory navigation.
+  }
 }
 
 function updateConnectionStatus(source, errorMessage = '') {
@@ -70,8 +79,9 @@ function renderLogin(error = '') {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const userId = document.querySelector('#login-user-id')?.value ?? '';
-    const password = document.querySelector('#login-password')?.value ?? '';
+    const formData = new FormData(form);
+    const userId = formData.get('userId') ?? '';
+    const password = formData.get('password') ?? '';
     const session = createSessionState({ userId, password });
 
     if (!session.authenticated) {
