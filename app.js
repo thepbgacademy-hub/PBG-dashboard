@@ -1,10 +1,30 @@
 import { fetchDashboardData } from './src/api.js';
 import { renderDashboardMarkup } from './src/dashboard.js';
+import { createSessionState, renderLoginMarkup } from './src/login.js';
 import { sampleDashboardData } from './src/sample-data.js';
 
 const root = document.querySelector('#dashboard-root');
 const connectionStatus = document.querySelector('#connection-status');
+const logoutButton = document.querySelector('#logout-button');
 const config = window.DASHBOARD_CONFIG ?? {};
+const sessionKey = 'guild-academy-session';
+
+function readSession() {
+  try {
+    const raw = window.sessionStorage.getItem(sessionKey);
+    return raw ? JSON.parse(raw) : { authenticated: false, userId: '' };
+  } catch {
+    return { authenticated: false, userId: '' };
+  }
+}
+
+function writeSession(session) {
+  window.sessionStorage.setItem(sessionKey, JSON.stringify(session));
+}
+
+function clearSession() {
+  window.sessionStorage.removeItem(sessionKey);
+}
 
 function updateConnectionStatus(source, errorMessage = '') {
   if (!connectionStatus) {
@@ -25,10 +45,51 @@ function updateConnectionStatus(source, errorMessage = '') {
   connectionStatus.classList.add('is-fallback');
 }
 
+function setToolbarState(authenticated) {
+  if (connectionStatus) {
+    connectionStatus.hidden = !authenticated;
+  }
+
+  if (logoutButton) {
+    logoutButton.hidden = !authenticated;
+  }
+}
+
+function renderLogin(error = '') {
+  if (!root) {
+    return;
+  }
+
+  setToolbarState(false);
+  root.innerHTML = renderLoginMarkup({ error });
+  const form = document.querySelector('#login-form');
+
+  if (!form) {
+    return;
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const userId = document.querySelector('#login-user-id')?.value ?? '';
+    const password = document.querySelector('#login-password')?.value ?? '';
+    const session = createSessionState({ userId, password });
+
+    if (!session.authenticated) {
+      renderLogin(session.error);
+      return;
+    }
+
+    writeSession(session);
+    await loadDashboard();
+  });
+}
+
 async function loadDashboard() {
   if (!root) {
     return;
   }
+
+  setToolbarState(true);
 
   try {
     const result = await fetchDashboardData({
@@ -45,4 +106,15 @@ async function loadDashboard() {
   }
 }
 
-loadDashboard();
+logoutButton?.addEventListener('click', () => {
+  clearSession();
+  renderLogin();
+});
+
+const session = readSession();
+
+if (session.authenticated) {
+  loadDashboard();
+} else {
+  renderLogin();
+}

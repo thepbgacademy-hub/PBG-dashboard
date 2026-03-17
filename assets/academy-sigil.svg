@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">Guild Academy Sigil</title>
+  <desc id="desc">Futuristic academy emblem with concentric rings and a central crosshair.</desc>
+  <defs>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7ae9ff"/>
+      <stop offset="100%" stop-color="#1c93c0"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="28" fill="#07111b"/>
+  <path d="M52 28h136l24 24v136l-24 24H52l-24-24V52z" fill="none" stroke="#2c8fb1" stroke-width="3"/>
+  <circle cx="120" cy="120" r="62" fill="none" stroke="url(#ring)" stroke-width="6" opacity=".95"/>
+  <circle cx="120" cy="120" r="44" fill="none" stroke="#7ae9ff" stroke-width="2" opacity=".45"/>
+  <path d="M120 58v36M120 146v36M58 120h36M146 120h36" stroke="#7ae9ff" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="120" cy="120" r="12" fill="#7ae9ff" opacity=".88"/>
+  <path d="M38 38h24M178 38h24M38 202h24M178 202h24" stroke="#7ae9ff" stroke-width="3" opacity=".7"/>
+</svg>

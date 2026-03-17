@@ -7,6 +7,11 @@ import {
   normalizeDashboardPayload,
   renderDashboardMarkup,
 } from '../src/dashboard.js';
+import {
+  createSessionState,
+  isValidDemoLogin,
+  renderLoginMarkup,
+} from '../src/login.js';
 
 function runTest(name, fn) {
   try {
@@ -107,4 +112,30 @@ runTest('renderDashboardMarkup exposes hud layout hooks', () => {
   assert.match(markup, /student-frame/);
   assert.match(markup, /signal-cluster/);
   assert.match(markup, /hud-panel hud-panel--ledger/);
+});
+
+runTest('isValidDemoLogin accepts the configured demo credentials', () => {
+  assert.equal(isValidDemoLogin({ userId: '123465', password: 'admin' }), true);
+  assert.equal(isValidDemoLogin({ userId: '123465', password: 'wrong' }), false);
+});
+
+runTest('createSessionState sets unlocked state for valid demo login', () => {
+  assert.deepEqual(
+    createSessionState({ userId: '123465', password: 'admin' }),
+    {
+      authenticated: true,
+      userId: '123465',
+      error: '',
+    },
+  );
+});
+
+runTest('renderLoginMarkup exposes hud login hooks and asset reference', () => {
+  const markup = renderLoginMarkup({ error: '' });
+
+  assert.match(markup, /login-screen/);
+  assert.match(markup, /academy-sigil\.svg/);
+  assert.match(markup, /User ID/);
+  assert.match(markup, /Password/);
+  assert.match(markup, /123465/);
 });

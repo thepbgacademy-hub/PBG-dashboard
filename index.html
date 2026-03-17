@@ -30,10 +30,13 @@
         <section class="dashboard-frame">
           <div class="dashboard-toolbar">
             <div>
-              <p class="section-label">Student view</p>
-              <h2>Live dashboard</h2>
+              <p class="section-label">Student View</p>
+              <h2>Console Access</h2>
             </div>
-            <p id="connection-status" class="connection-status">Loading dashboard...</p>
+            <div class="toolbar-actions">
+              <p id="connection-status" class="connection-status" hidden>Loading dashboard...</p>
+              <button id="logout-button" class="toolbar-button" type="button" hidden>Log Out</button>
+            </div>
           </div>
 
           <div id="dashboard-root" class="dashboard-root" aria-live="polite"></div>
