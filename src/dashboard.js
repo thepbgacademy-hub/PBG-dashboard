@@ -39,6 +39,11 @@ export function formatGuildies(amount) {
   return `${new Intl.NumberFormat('en-US').format(value)} Guildies`;
 }
 
+function formatGuildiesCount(amount) {
+  const value = Math.round(Number(amount ?? 0));
+  return new Intl.NumberFormat('en-US').format(value);
+}
+
 export function formatProgressLabel(percent) {
   return `${Math.round(Number(percent ?? 0))}% complete`;
 }
@@ -207,7 +212,7 @@ export function renderDashboardMarkup(payload) {
             <article class="hud-panel metric-panel metric-panel--guildies">
               <p class="section-label">Guildies Balance</p>
               <p class="metric-panel__caption">Internal academy credits</p>
-              <p class="card__value">${escapeHtml(formatGuildies(data.balances.guildies))}</p>
+              <p class="card__value">${escapeHtml(formatGuildiesCount(data.balances.guildies))}</p>
               <p class="card__subtext">Internal academy credits for rewards, unlocks, and perks.</p>
             </article>
           </section>
