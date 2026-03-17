@@ -183,6 +183,11 @@ a {
   transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
 }
 
+.login-submit--secondary {
+  background: rgba(80, 223, 255, 0.08);
+  color: var(--teal);
+}
+
 .toolbar-button:hover,
 .toolbar-button:focus-visible,
 .login-submit:hover,

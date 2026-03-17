@@ -72,16 +72,13 @@ function renderLogin(error = '', values = {}) {
   setToolbarState(false);
   root.innerHTML = renderLoginMarkup({ error, userId: values.userId ?? '' });
   const form = document.querySelector('#login-form');
+  const demoButton = document.querySelector('#demo-access-button');
 
   if (!form) {
     return;
   }
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const userId = formData.get('userId') ?? '';
-    const password = formData.get('password') ?? '';
+  async function unlockWithCredentials(userId, password) {
     const session = createSessionState({ userId, password });
 
     if (!session.authenticated) {
@@ -91,6 +88,28 @@ function renderLogin(error = '', values = {}) {
 
     writeSession(session);
     await loadDashboard();
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const userId = document.querySelector('#login-user-id')?.value ?? '';
+    const password = document.querySelector('#login-password')?.value ?? '';
+    await unlockWithCredentials(userId, password);
+  });
+
+  demoButton?.addEventListener('click', async () => {
+    const userIdInput = document.querySelector('#login-user-id');
+    const passwordInput = document.querySelector('#login-password');
+
+    if (userIdInput) {
+      userIdInput.value = '123465';
+    }
+
+    if (passwordInput) {
+      passwordInput.value = 'admin';
+    }
+
+    await unlockWithCredentials('123465', 'admin');
   });
 }
 

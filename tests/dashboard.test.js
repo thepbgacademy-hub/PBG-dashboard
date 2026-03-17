@@ -139,4 +139,5 @@ runTest('renderLoginMarkup exposes hud login hooks and asset reference', () => {
   assert.match(markup, /User ID/);
   assert.match(markup, /Password/);
   assert.match(markup, /123465/);
+  assert.match(markup, /Use Demo Access/);
 });

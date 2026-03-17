@@ -71,6 +71,7 @@ export function renderLoginMarkup({ error = '', userId = '' } = {}) {
           ${errorMarkup}
 
           <button class="login-submit" type="submit">Unlock Dashboard</button>
+          <button class="login-submit login-submit--secondary" id="demo-access-button" type="button">Use Demo Access</button>
         </form>
 
         <div class="login-hint">
