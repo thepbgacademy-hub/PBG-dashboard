@@ -174,6 +174,33 @@ function renderList(items, renderer, emptyLabel) {
   return `<div class="list">${items.map(renderer).join('')}</div>`;
 }
 
+function renderFeaturedLesson() {
+  return `
+    <article class="hud-panel hud-panel--lesson featured-lesson">
+      <div class="panel-heading">
+        <div>
+          <p class="section-label">Featured Lesson</p>
+          <h4>Academy Field Brief</h4>
+        </div>
+        <p class="panel-heading__meta">Video Intel</p>
+      </div>
+      <div class="featured-lesson__media">
+        <iframe
+          src="https://www.youtube.com/embed/Ky4XNOyO3sk"
+          title="Guild Academy featured lesson"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+      <p class="card__subtext card__subtext--bright">
+        Quick tactical lesson from the academy channel. Future lessons can live on the dedicated media page.
+      </p>
+    </article>
+  `;
+}
+
 export function renderDashboardMarkup(payload) {
   const data = normalizeDashboardPayload(payload);
   const progressWidth = Math.max(0, Math.min(100, data.progress.percent));
@@ -199,6 +226,8 @@ export function renderDashboardMarkup(payload) {
               <span class="meta-pill">Updated ${escapeHtml(formatDate(data.status.updatedAt))}</span>
             </div>
           </article>
+
+          ${renderFeaturedLesson()}
 
           <section class="frame-metrics">
             <article class="hud-panel metric-panel metric-panel--progress">

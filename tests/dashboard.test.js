@@ -114,6 +114,25 @@ runTest('renderDashboardMarkup exposes hud layout hooks', () => {
   assert.match(markup, /hud-panel hud-panel--ledger/);
 });
 
+runTest('renderDashboardMarkup exposes featured lesson embed hooks', () => {
+  const markup = renderDashboardMarkup(
+    normalizeDashboardPayload({
+      student: { fullName: 'Guildie Master', program: 'UCC', cohort: 'Spring' },
+      status: { label: 'Active', updatedAt: '2026-03-17' },
+      progress: { percent: 65, completed: 8, total: 12, summary: 'Mission is progressing.' },
+      balances: { cash: 120, guildies: 250 },
+      upcoming: [],
+      transactions: [],
+      notes: [],
+      links: [],
+    }),
+  );
+
+  assert.match(markup, /featured-lesson/);
+  assert.match(markup, /youtube\.com\/embed\/Ky4XNOyO3sk/);
+  assert.match(markup, /Featured Lesson/);
+});
+
 runTest('isValidDemoLogin accepts the configured demo credentials', () => {
   assert.equal(isValidDemoLogin({ userId: '123465', password: 'admin' }), true);
   assert.equal(isValidDemoLogin({ userId: '123465 ', password: ' Admin ' }), true);
