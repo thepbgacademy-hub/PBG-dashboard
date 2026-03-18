@@ -50,16 +50,6 @@ a {
   padding: 18px 0 42px;
 }
 
-.hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.52fr;
-  gap: 18px;
-  align-items: stretch;
-  margin-bottom: 18px;
-}
-
-.hero__copy,
-.hero__meta,
 .dashboard-frame,
 .hud-panel {
   position: relative;
@@ -69,8 +59,6 @@ a {
   overflow: hidden;
 }
 
-.hero__copy::before,
-.hero__meta::before,
 .dashboard-frame::before,
 .hud-panel::before {
   content: "";
@@ -81,26 +69,12 @@ a {
   clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px), 0 18px);
 }
 
-.hero__copy,
-.hero__meta {
-  padding: 22px 26px;
-  clip-path: polygon(22px 0, calc(100% - 22px) 0, 100% 22px, 100% calc(100% - 22px), calc(100% - 22px) 100%, 22px 100%, 0 calc(100% - 22px), 0 22px);
-}
-
-.hero__meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-}
-
 .dashboard-frame {
   padding: 18px;
   clip-path: polygon(24px 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 24px), calc(100% - 24px) 100%, 24px 100%, 0 calc(100% - 24px), 0 24px);
 }
 
-.eyebrow,
 .section-label,
-.hero__label,
 .mini-label {
   margin: 0 0 8px;
   text-transform: uppercase;
@@ -109,32 +83,11 @@ a {
   color: var(--mist-500);
 }
 
-.hero h1,
 .dashboard-toolbar h2,
 .panel-heading h4,
 .student-header__name {
   margin: 0;
   font-family: "Georgia", "Times New Roman", serif;
-}
-
-.hero h1 {
-  font-size: clamp(2.4rem, 4vw, 3.25rem);
-  line-height: 0.95;
-  max-width: 8ch;
-}
-
-.hero__text {
-  max-width: 38ch;
-  margin: 12px 0 0;
-  color: var(--mist-300);
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
-.hero__value {
-  margin: 0;
-  font-size: 1.9rem;
-  font-weight: 700;
 }
 
 .dashboard-toolbar {
@@ -585,7 +538,6 @@ a {
 }
 
 @media (max-width: 920px) {
-  .hero,
   .hud-grid {
     grid-template-columns: 1fr;
   }
@@ -607,8 +559,6 @@ a {
     padding-top: 12px;
   }
 
-  .hero__copy,
-  .hero__meta,
   .dashboard-frame,
   .hud-panel {
     padding: 16px;
